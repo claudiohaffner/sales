@@ -1,7 +1,5 @@
 package it.ch.salestaxes;
 
-import it.ch.salestaxes.Price;
-
 public class ProductOrder {
 
 	private Product product;

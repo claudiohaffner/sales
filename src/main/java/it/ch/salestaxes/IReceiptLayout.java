@@ -1,7 +1,8 @@
 package it.ch.salestaxes;
 
 public interface IReceiptLayout {
-	void header();
+	
+	void printHeader();
 
 	void printProduct(ProductOrder entry);
 
@@ -11,5 +12,5 @@ public interface IReceiptLayout {
 
 	void printTotal(Price total);
 
-	void footer();
+	void printFooter();
 }

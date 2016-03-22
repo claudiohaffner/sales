@@ -6,17 +6,16 @@ public class Tax {
 
 	private TaxType type;
 	private BigDecimal rate;
-	private TaxLevyRule taxLevyRule;
+	private ITaxLevyRule iTaxLevyRule;
 
-	public Tax(TaxType type, BigDecimal rate, TaxLevyRule taxLevyRule) {
-		super();
+	public Tax(TaxType type, BigDecimal rate, ITaxLevyRule iTaxLevyRule) {
 		this.type = type;
 		this.rate = rate;
-		this.taxLevyRule = taxLevyRule;
+		this.iTaxLevyRule = iTaxLevyRule;
 	}
 	
 	public boolean applicable(Product product) {
-		return (this.taxLevyRule.applicable(product));
+		return (this.iTaxLevyRule.applicable(product));
 	}
 
 	public TaxType getType() {

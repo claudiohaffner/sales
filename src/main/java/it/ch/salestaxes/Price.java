@@ -30,14 +30,9 @@ public class Price {
 		return new Price(amount, currency);
 	}
 
-	public Price add(BigDecimal rate) {
-		this.amount = this.amount.add(rate);
-		return this;
-	}
-
-	public Price add(Price price) {
-		//this.amount = this.amount.add(price.getAmount());
-		//return this;
+	public Price add(Price price) throws CurrencyException {
+		if (!this.getCurrency().equals(price.getCurrency()))
+			throw new CurrencyException(this.getCurrency()+" "+price.getCurrency()+" are not comparable");
 		return Price.instance(this.amount.add(price.getAmount()), this.currency);
 	}
 

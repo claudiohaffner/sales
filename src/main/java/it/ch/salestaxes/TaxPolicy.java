@@ -7,32 +7,33 @@ import java.util.List;
 
 public class TaxPolicy {
 
-	private List<Tax> applicableTaxes;
+	private List<Tax> listApplicableTaxes = new ArrayList<Tax>();
 	private BigDecimal roundingScale;
 	private TaxRoundingRule taxRoundingRule;
 
-	public TaxPolicy(List<Tax> applicableTaxes, BigDecimal roundingScale, TaxRoundingRule taxRoundingRule) {
-		this.applicableTaxes = applicableTaxes;
-		this.roundingScale = roundingScale;
-		this.taxRoundingRule = taxRoundingRule;
+	// create an object of SingleObject
+	private static TaxPolicy instance = new TaxPolicy();
+
+	// make the constructor private so that this class cannot be
+	// instantiated
+	private TaxPolicy() {
 	}
 
-	public TaxPolicy(BigDecimal roundingScale, TaxRoundingRule taxRoundingRule) {
-		this.applicableTaxes = new ArrayList<Tax>();
-		this.roundingScale = roundingScale;
-		this.taxRoundingRule = taxRoundingRule;
+	// Get the only object available
+	public static TaxPolicy getInstance() {
+		return instance;
 	}
 
 	public void addTaxToPolicy(Tax tax) {
-		applicableTaxes.add(tax);
+		listApplicableTaxes.add(tax);
 	}
 
-	public Price getTaxPrice(ProductOrder productOrder) {
+	public Price getTaxPrice(ProductOrder productOrder) throws CurrencyException {
 		Price productPrice = productOrder.getProduct().getPrice();
 		Currency productCurrency = productPrice.getCurrency();
 		Price totalTax = Price.zero(productCurrency);
 
-		for (Tax tax : this.applicableTaxes) {
+		for (Tax tax : this.listApplicableTaxes) {
 			Price taxPrice = Price.zero(productCurrency);
 			if (tax.applicable(productOrder.getProduct())) {
 

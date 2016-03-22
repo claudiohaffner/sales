@@ -1,10 +1,10 @@
 package it.ch.salestaxes;
 public class Product {
-	
+
+	private String name;
 	private ProductType type;
-	private ProductSource source; // imported, local
-	private String name; // music cd, chocolate bar, ...
-	private Price price; // amount + currency
+	private ProductSource source;
+	private Price price;
 
 	public Product(String name, ProductType type, ProductSource source, Price price) {
 		this.type = type;

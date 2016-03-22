@@ -7,7 +7,7 @@ public class ClientReceipt implements IReceiptLayout {
 	private static final String FORMAT_TOT = "%35s ---> %8s";
 	
 	@Override
-	public void header() {
+	public void printHeader() {
 		System.out.println(LINE);
 		System.out.println(String.format(FORMAT, 
 				"QTY",
@@ -17,21 +17,27 @@ public class ClientReceipt implements IReceiptLayout {
 
 	@Override
 	public void printProduct(ProductOrder entry) {
+		String totOrderPrice;
+		try {
+			totOrderPrice = entry.getOrderPrice().add(entry.getTaxPrice()).toString();
+		} catch (Exception e) {
+			totOrderPrice = "ERR";
+		}
 		System.out.println(String.format(FORMAT,
 				entry.getQuantity(),
 				entry.getProduct().getName(),
-				entry.getOrderPrice().add(entry.getTaxPrice())
+				totOrderPrice
 				));
 	}
 
 	@Override
 	public void printTotProducts(Price subTotal) {
-		System.out.println(String.format(FORMAT_TOT, "SUB-TOTAL", subTotal));
+		System.out.println(String.format(FORMAT_TOT, "SUB_TOTAL", subTotal));
 	}
 
 	@Override
 	public void printTotTaxes(Price taxTotal) {
-		System.out.println(String.format(FORMAT_TOT, "TAX-TOTAL", taxTotal));
+		System.out.println(String.format(FORMAT_TOT, "TAX_TOTAL", taxTotal));
 
 	}
 
@@ -41,7 +47,7 @@ public class ClientReceipt implements IReceiptLayout {
 	}
 
 	@Override
-	public void footer() {
+	public void printFooter() {
 		System.out.println(LINE);
 	}
 

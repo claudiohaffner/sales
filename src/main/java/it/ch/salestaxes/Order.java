@@ -15,14 +15,14 @@ public class Order {
 		this.currency = currency;
 	}
 
-	public void addProductOrder(Product product, int quantity) {
+	public void addProductOrder(Product product, int quantity) throws CurrencyException {
 		ProductOrder productOrder = new ProductOrder(product, quantity);
 		Price taxPrice = this.taxPolicy.getTaxPrice(productOrder);
 		productOrder.setTaxPrice(taxPrice);
 		listProductOrder.add(productOrder);
 	}
 
-	public Price getTaxTotal() {
+	public Price getTaxTotal() throws CurrencyException {
 		Price total = Price.zero(this.currency);
 		for (ProductOrder entry: listProductOrder) {
 			total = total.add(entry.getTaxPrice());
@@ -30,7 +30,7 @@ public class Order {
 		return total;
 	}
 
-	private Price getSubTotal() {
+	private Price getSubTotal() throws CurrencyException {
 		Price total = Price.zero(this.currency);
 		for (ProductOrder entry: listProductOrder) {
 			total = total.add(entry.getOrderPrice());
@@ -38,12 +38,12 @@ public class Order {
 		return total;
 	}
 
-	public Price getTotal() {
+	public Price getTotal() throws CurrencyException {
 		return getSubTotal().add(getTaxTotal());
 	}
 
-	public void print(IReceiptLayout iSalesReceipt) {
-		iSalesReceipt.header();
+	public void print(IReceiptLayout iSalesReceipt) throws CurrencyException {
+		iSalesReceipt.printHeader();
 
 		for (ProductOrder entry : listProductOrder)
 			iSalesReceipt.printProduct(entry);
@@ -51,6 +51,6 @@ public class Order {
 		iSalesReceipt.printTotProducts(getSubTotal());
 		iSalesReceipt.printTotTaxes(getTaxTotal());
 		iSalesReceipt.printTotal(getTotal());
-		iSalesReceipt.footer();
+		iSalesReceipt.printFooter();
 	}
 }

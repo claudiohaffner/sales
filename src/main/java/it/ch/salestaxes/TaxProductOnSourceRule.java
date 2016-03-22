@@ -2,17 +2,17 @@ package it.ch.salestaxes;
 
 import java.util.*;
 
-public class TaxProductOnSourceRule implements TaxLevyRule {
+public class TaxProductOnSourceRule implements ITaxLevyRule {
 
-	private List<ProductSource> appliableSources = Collections.emptyList();
+	private List<ProductSource> listApplicableSources = Collections.emptyList();
 
 	public TaxProductOnSourceRule(ProductSource... sources) {
-		this.appliableSources = Arrays.asList(sources);
+		this.listApplicableSources = Arrays.asList(sources);
 	}
 
 	@Override
 	public boolean applicable(Product product) {
-		return appliableSources.contains(product.getSource());
+		return listApplicableSources.contains(product.getSource());
 	}
 
 }
